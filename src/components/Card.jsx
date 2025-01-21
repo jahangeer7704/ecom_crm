@@ -22,4 +22,5 @@ function Card({ img, title, price,id,cart,wish }) {
     )
 }
 
+
 export default Card
