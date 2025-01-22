@@ -11,6 +11,8 @@ const Navbar = () => {
 
                 <a href="/">Home</a>
                 <a href="/signup">Signup</a>
+                <a href="/signin">Signin</a>
+
 
             </div>
             <div className="flex col-span-3 justify-end gap-x-4 items-center">
@@ -26,6 +28,7 @@ const Navbar = () => {
                 <FaShoppingCart className='text-black text-2xl' />
 
             </div>
+            
         </nav>
     );
 };

@@ -14,7 +14,7 @@ export default function SimpleSlider() {
   return (
     <Slider {...settings} className="">
      {[1,2,3].map(i=> <div key={i}>
-       <img src="../../../public/i1.jpg" className="h-[375px] w-full" alt="" />
+       <img src="/i1.jpg" className="h-[375px] w-full" alt="" />
       </div>)}
     </Slider>
   );
