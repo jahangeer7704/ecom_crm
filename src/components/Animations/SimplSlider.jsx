@@ -9,13 +9,18 @@ export default function SimpleSlider() {
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay:true,arrows:false
+    autoplay: true,
+    arrows: false,
   };
+
+  const bannerpath = ["/b1.png", "/b2.png", "/b3.png"];
   return (
-    <Slider {...settings} className="">
-     {[1,2,3].map(i=> <div key={i}>
-       <img src="/i1.jpg" className="h-[375px] w-full" alt="" />
-      </div>)}
+    <Slider autoplay {...settings} className="">
+      {bannerpath.map((img, i) => (
+        <div key={i}>
+          <img src={img} className="h-[375px] w-full" alt="" />
+        </div>
+      ))}
     </Slider>
   );
 }
