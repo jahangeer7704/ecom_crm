@@ -1,8 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.pt-serif-regular {
-  font-family: "PT Serif", serif;
-  font-weight: 700;
+* {
+  font-family: "poppins", sans-serif;
 }
