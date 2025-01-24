@@ -3,6 +3,7 @@ import React from "react";
 import Card from "./Card";
 import { data } from "../../data";
 import { useState, useRef } from "react";
+import TimeDisplay from "./TimeDisplay";
 function FlashSales() {
   const scrollRef = useRef();
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -40,9 +41,11 @@ function FlashSales() {
             <p className="p-2 text-red-600 text-sm">Today's</p>
           </div>
           <div className="flex justify-between items-end w-full">
-            <div className="">
-              <h2 className="font-bold text-4xl">Flash Sales</h2>
-              {/* time */}
+            <div className="flex justify-between ">
+              <h2 className="font-bold text-5xl">Flash Sales </h2>
+              <div className="px-20">
+              <TimeDisplay />
+              </div>
             </div>
             <div>
               <button onClick={() => handleScrollPosition(-240)}>
@@ -70,7 +73,12 @@ function FlashSales() {
             id={i.id}
           />
         ))}
-      </div>
+      </div> 
+      <div class="flex items-center justify-center w-auto ">
+                <button class="bg-red-500 text-white  py-4 px-6 rounded hover:bg-red-600 ">
+                  View All Products
+                </button>
+                </div>
     </div>
   );
 }

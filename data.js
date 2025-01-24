@@ -14,5 +14,11 @@ export const data = [
     { id: 13, title: 'Product 7', price: 20.0, image: "/i3.png" },
     { id: 14, title: 'Product 8', price: 30.0, image: "/i4.png" },
     { id: 15, title: 'Product 9', price: 40.0, image: "/i5.png" },
+    { id: 15, title: 'Product 9', price: 40.0, image: "/i5.png" },
+    { id: 15, title: 'Product 9', price: 40.0, image: "/i5.png" },
+    { id: 15, title: 'Product 9', price: 40.0, image: "/i5.png" },
+    { id: 15, title: 'Product 9', price: 40.0, image: "/i5.png" },
+    { id: 15, title: 'Product 9', price: 40.0, image: "/i5.png" },
+
     { id: 16, title: 'Product 10', price: 50.0, image: "/i2.png" }
 ];
