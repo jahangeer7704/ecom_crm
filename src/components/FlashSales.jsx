@@ -74,8 +74,8 @@ function FlashSales() {
           />
         ))}
       </div> 
-      <div class="flex items-center justify-center w-auto ">
-                <button class="bg-red-500 text-white  py-4 px-6 rounded hover:bg-red-600 ">
+      <div className="flex items-center justify-center w-auto ">
+                <button className="bg-red-500 text-white  py-4 px-6 rounded hover:bg-red-600 ">
                   View All Products
                 </button>
                 </div>

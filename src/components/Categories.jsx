@@ -3,7 +3,10 @@ import { BsArrowRightShort } from "react-icons/bs";
 import { useState, useRef } from "react";
 
 
-const scrollRef = useRef();
+
+
+function Categories() {
+  const scrollRef = useRef();
   const [scrollPosition, setScrollPosition] = useState(0);
   const handleScrollPosition = (scroll) => {
     const maxScroll =
@@ -21,8 +24,6 @@ const scrollRef = useRef();
 
     console.log(newScrollPosition);
   };
-
-function Categories() {
   return (
     <div>
   

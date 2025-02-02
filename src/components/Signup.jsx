@@ -1,46 +1,32 @@
 import React, { useState } from "react";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod"
+import {Link} from "react-router-dom"
 import { FcGoogle } from "react-icons/fc";
+import { useForm } from "react-hook-form"
 const SignupPage = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    emailOrPhone: "",
-    password: "",
+  const formSchema = z.object({
+    username: z.string().min(5, "Username must be at least 5 characters long").nonempty("User name required"),
+    mail: z.string().email("Invalid email address").nonempty("Email is required"),
+    password: z.string()
+      .min(8, "Password must be at least 8 characters long")
+      .max(50, "Password must be at most 50 characters long")
+      .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, "Password must contains (A-Z) (a-z) (0-9) special character"),
+    confirm: z.string().min(8, "Confirm password must be at least 8 characters long")
+  }).refine(data => data.password === data.confirm, {
+    message: "Passwords don't match",
+    path: ["confirm"], // Set the path of the error to 'confirm'
   });
-  const [error, setError] = useState("");
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: zodResolver(formSchema),
+  })
+  const onSubmit = (e) => {
+    console.log(e);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    setError("");
+
+
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\+?[0-9]{10,15}$/;
-    const passwordMinLength = 6;
-
-    if (!formData.name) {
-      setError("Name is required.");
-      return;
-    }
-    if (
-      !emailRegex.test(formData.emailOrPhone) &&
-      !phoneRegex.test(formData.emailOrPhone)
-    ) {
-      setError("Please enter a valid email address or phone number.");
-      return;
-    }
-    if (formData.password.length < passwordMinLength) {
-      setError("Password must be at least 6 characters long.");
-      return;
-    }
-
-    alert("Signup successful!");
-    setFormData({ name: "", emailOrPhone: "", password: "" });
-  };
-  const inputStyle = "w-full border-b py-2 outline-none text-zinc-700";
+  const inputStyle = "w-full border-b py-2 outline-none text-zinc-700 px-1";
   return (
     <>
       <div className="min-h-screen flex items-center bg-white">
@@ -48,7 +34,7 @@ const SignupPage = () => {
           <img src={"/image.png"} alt="" className="h-45 w-1/2 max-md:hidden" />
           <div className="w-full flex items-center justify-center">
             <form
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
               className="w-[400px] flex flex-col items-center h-fit gap-6"
             >
               <div className="flex flex-col gap-1 w-full">
@@ -58,37 +44,29 @@ const SignupPage = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-8 items-start justify-start w-full">
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  placeholder="Name"
-                  className={inputStyle}
-                />
-                <input
-                  type="text"
-                  id="emailOrPhone"
-                  name="emailOrPhone"
-                  value={formData.emailOrPhone}
-                  onChange={handleInputChange}
-                  placeholder="Enter email or Phone number"
-                  className={inputStyle}
-                />
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  placeholder="Enter your password"
-                  className={inputStyle}
-                />
+
+                <div>
+                  <input {...register("username")} placeholder="User name" className={inputStyle} />
+                  {errors.username && <p className="text-red-500">{errors.username?.message}</p>}
+                </div>
+                <div>
+                  <input {...register("mail")} placeholder="Mail" className={inputStyle} />
+                  {errors.mail && <p className="text-red-500">{errors.mail?.message}</p>}
+                </div>
+
+                <div>
+                  <input {...register("password")} type="password" placeholder="Password" className={inputStyle} />
+                  {errors.password && <p className="text-red-500">{errors.password?.message}</p>}
+                </div>
+
+                <div>
+                  <input {...register("confirm")} type="password" placeholder="confirm password" className={inputStyle} />
+                  {errors.confirm && <p className="text-red-500">{errors.confirm?.message}</p>}
+                </div>
+
               </div>
-              {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-              <div class="flex flex-col items-start justify-between w-full gap-2">
-                <button class="bg-red-500 text-white size-full  py-2 px-4 rounded hover:bg-red-600">
+              <div className="flex flex-col items-start justify-between w-full gap-2">
+                <button className="bg-red-500 text-white size-full  py-2 px-4 rounded hover:bg-red-600">
                   Login
                 </button>
                 <div className="relative flex items-center text-zinc-300 gap-1 w-full py-2">
@@ -97,17 +75,18 @@ const SignupPage = () => {
                     or
                   </p>
                 </div>
-                <button className="border rounded flex items-center justify-center w-full p-2 gap-4 text-zinc-700">
+                {/* ANCHOR  add google sign in */}
+                {/* <button className="border rounded flex items-center justify-center w-full p-2 gap-4 text-zinc-700">
                   <FcGoogle className="text-xl" />
                   <p>Sign in with Google</p>
-                </button>
+                </button> */}
               </div>
               <div className="flex items-center w-full">
                 <p className="text-sm font-light">
                   Already have a account click{" "}
-                  <a className="text-blue-600" href="/signin">
+                  <Link className="text-blue-600" to="/signin">
                     here
-                  </a>
+                  </Link>
                 </p>
               </div>
             </form>

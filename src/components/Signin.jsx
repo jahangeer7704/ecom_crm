@@ -1,45 +1,25 @@
-import React, { useState } from "react";
-
+import React from "react";
+import { Link } from "react-router-dom";
+import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
 const SignupPage = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    emailOrPhone: "",
-    password: "",
+  const formSchema = z.object({
+    email: z.string().email("Invalid email address").nonempty("Email is required"),
+    password: z.string()
+      .min(8, "Password must be at least 8 characters long")
+      .regex(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/),
   });
-  const [error, setError] = useState("");
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: zodResolver(formSchema),
+  })
+  const onSubmit = (data) => {
+    console.log("hello");
+    
+    console.log(data);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    setError("");
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^\+?[0-9]{10,15}$/;
-    const passwordMinLength = 6;
-
-    if (!formData.name) {
-      setError("Name is required.");
-      return;
-    }
-    if (
-      !emailRegex.test(formData.emailOrPhone) &&
-      !phoneRegex.test(formData.emailOrPhone)
-    ) {
-      setError("Please enter a valid email address or phone number.");
-      return;
-    }
-    if (formData.password.length < passwordMinLength) {
-      setError("Password must be at least 6 characters long.");
-      return;
-    }
-
-    alert("Signup successful!");
-    setFormData({ name: "", emailOrPhone: "", password: "" });
-  };
+  }
   const inputStyle = "w-full border-b py-2 outline-none text-zinc-700";
   return (
     <div className="min-h-screen flex items-center bg-white">
@@ -47,7 +27,7 @@ const SignupPage = () => {
         <img src={"/image.png"} alt="" className="h-45 w-1/2 max-md:hidden" />
         <div className="w-full flex items-center justify-center">
           <form
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             className="w-[400px] flex flex-col items-center h-fit gap-6"
           >
             <div className="flex flex-col gap-1 w-full">
@@ -57,40 +37,39 @@ const SignupPage = () => {
               </p>
             </div>
             <div className="flex flex-col gap-8 items-start justify-start w-full">
-              <input
-                type="text"
-                id="emailOrPhone"
-                name="emailOrPhone"
-                value={formData.emailOrPhone}
-                onChange={handleInputChange}
-                placeholder="Enter email or Phone number"
-                className={inputStyle}
-              />
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                placeholder="Enter your password"
-                className={inputStyle}
-              />
+              <div>
+                <input
+                  placeholder="Email or Username"
+                  className={inputStyle}
+                  {...register("email")}
+                />
+                {errors.email && <p className="text-red-500">{errors.emailOrPhone?.message}</p>}
+              </div>
+              <div>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className={inputStyle}
+                  {...register("password")}
+                />
+                {errors.password && <p className="text-red-500">{errors.password?.message}</p>}
+              </div>
             </div>
-            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-            <div class="flex flex-col items-start justify-between w-full gap-2">
-              <a href="#" class="text-sm text-red-500 hover:underline">
+            {/* ANCHOR add forget password */}
+            <div className="flex flex-col items-start justify-between w-full gap-2">
+              <a href="#" className="text-sm text-red-500 hover:underline">
                 Forgot Password?
               </a>
-              <button class="bg-red-500 text-white size-full  py-2 px-4 rounded hover:bg-red-600">
+              <button className="bg-red-500 text-white size-full  py-2 px-4 rounded hover:bg-red-600">
                 Login
               </button>
             </div>
             <div className="flex items-center w-full">
               <p className="text-sm font-light">
                 Not have a account click{" "}
-                <a className="text-blue-600" href="/signup">
+                <Link className="text-blue-600" to="/signup">
                   here
-                </a>
+                </Link>
               </p>
             </div>
           </form>

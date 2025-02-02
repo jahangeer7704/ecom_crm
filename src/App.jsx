@@ -7,15 +7,15 @@ import Signup from "./components/Signup";
 function App() {
   return (
     <div className="flex flex-col justify-between  min-h-screen  ">
-      <Header />
       <BrowserRouter>
+      <Header />
         <Routes>
           <Route path="/" element={<Content />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
         </Routes>
-      </BrowserRouter>
       <Footer />
+      </BrowserRouter>
     </div>
   );
 }

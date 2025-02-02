@@ -2,7 +2,7 @@ import React from "react";
 import { CiHeart } from "react-icons/ci";
 import { FaShoppingCart } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
-
+import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <nav className="sticky top-0 z-10 border-b py-4 max-w-screen px-4">
@@ -14,12 +14,12 @@ const Navbar = () => {
           <a className="hover:underline" href="/">
             Home
           </a>
-          <a className="hover:underline" href="/signup">
+          <Link className="hover:underline" to="/signup">
             Signup
-          </a>
-          <a className="hover:underline" href="/signin">
+          </Link>
+          <Link className="hover:underline" to="/signin">
             Signin
-          </a>
+          </Link>
         </div>
         <div className="flex col-span-3 justify-end gap-x-4 items-center">
           <div className="flex   items-center ">
